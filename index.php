@@ -124,12 +124,72 @@ class WordNetParser {
 		return '{{' . $name . $params . '}}';
 	}
 
+	/**
+	 * Example input:
+	 * @code
+"WordNet:a00001740/en": {
+	"type": "a",
+	"description": "(usually followed by `to') having the necessary means or skill or know-how or authority to do something; \"able to swim\"; \"she was able to program her computer\"; \"we were at last able to buy a car\"; \"able to get a grant for the project\"",
+	"wsenses": {
+		"able": {
+			"lexrels": [
+				{
+					"synset": "WordNet:a00002098/en",
+					"word": "unable",
+					"lexrel": "antonym"
+				},
+				{
+					"synset": "WordNet:n05616246/en",
+					"word": "ability",
+					"lexrel": "derivationally related"
+				},
+				{
+					"synset": "WordNet:n05200169/en",
+					"word": "ability",
+					"lexrel": "derivationally related"
+				}
+			],
+			"transrels": [
+				{
+					"synset": "WordNet:a00001740/fi",
+					"word": "pystyvä",
+					"transrel": "synonym",
+					"note": ""
+				},
+				{
+					"synset": "WordNet:a00001740/fi",
+					"word": "kykenevä",
+					"transrel": "synonym",
+					"note": ""
+				},
+				{
+					"synset": "WordNet:a00001740/fi",
+					"word": "taitava",
+					"transrel": "synonym",
+					"note": ""
+				}
+			]
+		}
+	},
+	"semrels": [
+		{
+			"synset": "WordNet:n05200169/en",
+			"type": "attribute"
+		},
+		{
+			"synset": "WordNet:n05616246/en",
+			"type": "attribute"
+		}
+	]
+},
+	* @endcode
+	*/
 	public function convertToWiki( $id, $synset ) {
 		$pages = array();
 
 		list( $base, $language ) = explode( '/', $id, 3 );
 
-		/*foreach ( $synset['wsenses'] as $word => $info ) {
+		foreach ( $synset['wsenses'] as $word => $info ) {
 			$pages["$id/$word"] = WordNetParser::formatTemplate(
 				'wn/word',
 				array(
@@ -139,7 +199,7 @@ class WordNetParser {
 					'transrels' => self::mapFormat( 'wn/transrel', $info['transrels'] ),
 				)
 			);
-		}*/
+		}
 
 		$pages[$id] = WordNetParser::formatTemplate(
 			'wn/synset',
