@@ -61,9 +61,9 @@ class SpecialWordNet extends SpecialPage {
 	protected function getBaseForms( $input ) {
 		return array();
 
-		$query = FormatJSON::encode( array( 'input' => $input ) );
+		$query = FormatJson::encode( array( 'input' => $input ) );
 		$output = Http::post( 'http://nike.fixme.fi/wn', array( 'postData' => $query ) );
-		$data = FormatJSON::decode( $output, true );
+		$data = FormatJson::decode( $output, true );
 
 		$output = array();
 		foreach ( $data['output'] as $value ) {
