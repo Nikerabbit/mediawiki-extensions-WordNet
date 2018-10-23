@@ -79,8 +79,9 @@ class SpecialWordNet extends SpecialPage {
 			'limit' => '1000'
 		);
 
-		$prop1 = SMWPropertyValue::makeUserProperty( 'Wn/expression' );
-		$prop2 = SMWPropertyValue::makeUserProperty( 'Wn/description' );
+		$factory = SMW\DataValueFactory::getInstance();
+		$prop1 = $factory->newPropertyValueByLabel( 'Wn/expression' );
+		$prop2 = $factory->newPropertyValueByLabel( 'Wn/description' );
 
 		$printouts = array(
 			new SMW\Query\PrintRequest(
