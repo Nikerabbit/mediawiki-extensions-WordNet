@@ -1,11 +1,10 @@
 <?php
 
-
-$IP = getenv( 'MW_INSTALL_PATH' ) ?: '.';
+$env = getenv( 'MW_INSTALL_PATH' );
+$IP = $env !== false ? $env : __DIR__ . '/../..';
 require_once "$IP/maintenance/Maintenance.php";
 
 require_once __DIR__ . '/index.php';
-
 
 class WordNetImport extends Maintenance {
 	public function __construct() {
@@ -25,7 +24,7 @@ class WordNetImport extends Maintenance {
 			return;
 		}
 
-		list( $mod, $remainder ) = explode( ':', $this->getOption( 'partition', '1:0' ), 2 );
+		[ $mod, $remainder ] = explode( ':', $this->getOption( 'partition', '1:0' ), 2 );
 		$mod = (int)$mod;
 		$remainder = (int)$remainder;
 
@@ -54,5 +53,5 @@ class WordNetImport extends Maintenance {
 	}
 }
 
-$maintClass = 'WordNetImport';
+$maintClass = WordNetImport::class;
 require_once RUN_MAINTENANCE_IF_MAIN;

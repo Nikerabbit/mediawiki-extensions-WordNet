@@ -1,5 +1,4 @@
 /vendor
-/composer.lock
 /cache
 /wordnet.zip
 /fiwn-2.0

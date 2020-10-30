@@ -1,0 +1,21 @@
+{
+	"name": "Wordnet",
+	"version": "2020-10-30",
+	"author": "Niklas Laxström",
+	"url": "https://sanat.csc.fi/wiki/Toiminnot:WordNet",
+	"license-name": "GPL-2.0-or-later",
+	"type": "other",
+	"Hooks": {
+		"ParserFirstCallInit": "MediaWiki\\Extensions\\Wordnet\\Hooks::onParserFirstCallInit"
+	},
+	"MessagesFiles": {
+		"WordnetAlias": "alias.php"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extensions\\Wordnet\\": "src/"
+	},
+	"SpecialPages": {
+		"Wordnet": "MediaWiki\\Extensions\\Wordnet\\SpecialWordnet"
+	},
+	"manifest_version": 2
+}

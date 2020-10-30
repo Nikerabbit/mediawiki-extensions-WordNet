@@ -1,14 +1,20 @@
 <?php
-/**
- * @file
- * @author Niklas Laxstörm
- * @license GPL%2.0+
- */
 
+namespace MediaWiki\Extensions\Wordnet;
+
+use Html;
+use SMW;
 use SMW\ApplicationFactory;
+use SMWQueryProcessor;
+use SpecialPage;
+use Xml;
 
+/**
+ * @author Niklas Laxstörm
+ * @license GPL-2.0-or-later
+ */
 class SpecialWordNet extends SpecialPage {
-	function __construct() {
+	public function __construct() {
 		parent::__construct( 'WordNet' );
 	}
 
@@ -16,36 +22,33 @@ class SpecialWordNet extends SpecialPage {
 		return 'pages';
 	}
 
-	function execute( $par ) {
+	public function execute( $par ) {
 		$this->setHeaders();
 		$this->outputHeader();
 		$out = $this->getOutput();
 
 		$par = $this->getRequest()->getText( 'query', $par );
-			$form = Html::rawElement( 'form', array( 'action' => wfScript() ),
-				Html::hidden( 'title', $this->getTitle()->getPrefixedText() ) .
-				Html::input( 'query' ) .
-				Xml::submitButton( 'Hae' )
-			);
-			$out->addHtml( $form );
+		$form = Html::rawElement(
+			'form',
+			[ 'action' => wfScript() ],
+			Html::hidden( 'title', $this->getPageTitle()->getPrefixedText() ) .
+			Html::input( 'query' ) . Xml::submitButton( 'Hae' )
+		);
+		$out->addHtml( $form );
 		if ( strval( $par ) === '' ) {
 			return;
 		}
 
-		$keywords = $this->getBaseForms( $par );
+		$keywords = [ $par ];
 
-		if ( !$keywords ) {
-			$keywords = array( $par );
-		}
-
-		$results = array();
+		$results = [];
 		foreach ( $keywords as $keyword ) {
 			$results += $this->getSynsets( $keyword );
 		}
 
 		if ( !$results ) {
 			$sp = SpecialPage::getTitleFor( 'Search' );
-			$this->getOutput()->redirect( $sp->getLocalUrl( array( 'search' => $par, 'ns1202' => 1 ) ) );
+			$this->getOutput()->redirect( $sp->getLocalUrl( [ 'search' => $par, 'ns1202' => 1 ] ) );
 			return;
 		}
 
@@ -53,48 +56,28 @@ class SpecialWordNet extends SpecialPage {
 			$names = $info['printouts']['Wn/expression'];
 			$names = implode( ' | ', $names );
 			$desc = $info['printouts']['Wn/description'][0];
-			$this->getOutput()->addWikiText( "== [[$page|$names]] ==" );
-			$this->getOutput()->addWikiText( "<div class=wordnet-desc>$desc</div>" );
+			$this->getOutput()->addWikiTextAsInterface( "== [[$page|$names]] ==" );
+			$this->getOutput()->addWikiTextAsInterface( "<div class=wordnet-desc>$desc</div>" );
 		}
-	}
-
-	protected function getBaseForms( $input ) {
-		return array();
-
-		$query = FormatJson::encode( array( 'input' => $input ) );
-		$output = Http::post( 'http://nike.fixme.fi/wn', array( 'postData' => $query ) );
-		$data = FormatJson::decode( $output, true );
-
-		$output = array();
-		foreach ( $data['output'] as $value ) {
-			$output[] = str_replace( '#', '', $value );
-		}
-		$output = array_unique( $output );
-
-		return $output;
 	}
 
 	protected function getSynsets( $expression ) {
-		$parameters = array(
-			'limit' => '1000'
-		);
+		$parameters = [
+			'limit' => '1000',
+		];
 
 		$factory = SMW\DataValueFactory::getInstance();
 		$prop1 = $factory->newPropertyValueByLabel( 'Wn/expression' );
 		$prop2 = $factory->newPropertyValueByLabel( 'Wn/description' );
 
-		$printouts = array(
+		$printouts = [
 			new SMW\Query\PrintRequest(
-				SMW\Query\PrintRequest::PRINT_PROP,
-				$prop1->getWikiValue(),
-				$prop1
+				SMW\Query\PrintRequest::PRINT_PROP, $prop1->getWikiValue(), $prop1
 			),
 			new SMW\Query\PrintRequest(
-				SMW\Query\PrintRequest::PRINT_PROP,
-				$prop2->getWikiValue(),
-				$prop2
-			)
-		);
+				SMW\Query\PrintRequest::PRINT_PROP, $prop2->getWikiValue(), $prop2
+			),
+		];
 
 		$query = SMWQueryProcessor::createQuery(
 			"[[Category:WordNet]][[Wn/expression::$expression]]",

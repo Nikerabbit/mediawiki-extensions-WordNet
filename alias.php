@@ -1,6 +1,6 @@
 <?php
 
-$specialPageAliases = array();
-$specialPageAliases['en'] = array(
-	'WordNet' => array( 'WordNet' ),
-);
+$specialPageAliases = [];
+$specialPageAliases['en'] = [
+	'WordNet' => [ 'WordNet' ],
+];
