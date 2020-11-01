@@ -1,7 +1,7 @@
 <?php
 declare( strict_types=1 );
 
-namespace MediaWiki\Extensions\Wordnet;
+namespace MediaWiki\Extensions\WordNet;
 
 use Parser;
 

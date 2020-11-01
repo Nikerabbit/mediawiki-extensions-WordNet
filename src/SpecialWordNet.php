@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extensions\Wordnet;
+namespace MediaWiki\Extensions\WordNet;
 
 use Html;
 use SMW;
