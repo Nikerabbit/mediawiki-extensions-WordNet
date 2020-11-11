@@ -180,7 +180,7 @@ class WordNetParser {
 	public function convertToWiki( $id, $synset ) {
 		$pages = [];
 
-		[ $base, $language ] = explode( '/', $id, 3 );
+		[ , $language ] = explode( '/', $id, 3 );
 
 		foreach ( $synset['wsenses'] as $word => $info ) {
 			$pages["$id/$word"] = self::formatTemplate(
