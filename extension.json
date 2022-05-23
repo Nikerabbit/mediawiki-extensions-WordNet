@@ -8,7 +8,7 @@
 	"Hooks": {
 		"ParserFirstCallInit": "MediaWiki\\Extensions\\WordNet\\Hooks::onParserFirstCallInit"
 	},
-	"MessagesFiles": {
+	"ExtensionMessagesFiles": {
 		"WordNetAlias": "alias.php"
 	},
 	"AutoloadNamespaces": {
