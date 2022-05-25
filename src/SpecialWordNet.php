@@ -4,7 +4,7 @@ namespace MediaWiki\Extensions\WordNet;
 
 use Html;
 use SMW;
-use SMW\ApplicationFactory;
+use SMW\Services\ServicesFactory;
 use SMWQueryProcessor;
 use SpecialPage;
 use Xml;
@@ -87,7 +87,7 @@ class SpecialWordNet extends SpecialPage {
 			$printouts
 		);
 
-		$results = ApplicationFactory::getInstance()->getStore()->getQueryResult( $query );
+		$results = ServicesFactory::getInstance()->getStore()->getQueryResult( $query );
 		$array = $results->serializeToArray();
 
 		return $array['results'];

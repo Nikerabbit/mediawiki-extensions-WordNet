@@ -10,7 +10,7 @@ class WordNetImport extends Maintenance {
 	public function __construct() {
 		parent::__construct();
 		$this->mDescription = '...';
-		$this->addOption( 'partition', 'how to partitition, default: 1:0', false, true );
+		$this->addOption( 'partition', 'how to partition, default: 1:0', false, true );
 		$this->addArg( 'source', 'JSON data' );
 	}
 
