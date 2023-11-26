@@ -3,17 +3,18 @@ declare( strict_types=1 );
 
 namespace MediaWiki\Extensions\WordNet;
 
-use Parser;
+use MediaWiki\Hook\ParserFirstCallInitHook;
 
 /**
  * @author Niklas Laxström
  * @license GPL-2.0-or-later
  */
-class Hooks {
-	public static function onParserFirstCallInit( Parser $parser ): void {
+class Hooks implements ParserFirstCallInitHook {
+	/** @inheritDoc */
+	public function onParserFirstCallInit( $parser ): void {
 		$parser->setHook(
 			'includesubpages',
-			function ( $data, $params, $parser ) {
+			static function ( $data, $params, $parser ) {
 				$title = $parser->getTitle();
 
 				$out = '';

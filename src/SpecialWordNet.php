@@ -3,7 +3,8 @@
 namespace MediaWiki\Extensions\WordNet;
 
 use Html;
-use SMW;
+use SMW\DataValueFactory;
+use SMW\Query\PrintRequest;
 use SMW\Services\ServicesFactory;
 use SMWQueryProcessor;
 use SpecialPage;
@@ -18,16 +19,18 @@ class SpecialWordNet extends SpecialPage {
 		parent::__construct( 'WordNet' );
 	}
 
-	protected function getGroupName() {
+	/** @inheritDoc */
+	protected function getGroupName(): string {
 		return 'pages';
 	}
 
-	public function execute( $par ) {
+	/** @inheritDoc */
+	public function execute( $par ): void {
 		$this->setHeaders();
 		$this->outputHeader();
 		$out = $this->getOutput();
 
-		$par = $this->getRequest()->getText( 'query', $par );
+		$par ??= $this->getRequest()->getText( 'query' );
 		$form = Html::rawElement(
 			'form',
 			[ 'action' => wfScript() ],
@@ -35,7 +38,7 @@ class SpecialWordNet extends SpecialPage {
 			Html::input( 'query' ) . Xml::submitButton( 'Hae' )
 		);
 		$out->addHtml( $form );
-		if ( strval( $par ) === '' ) {
+		if ( $par === '' ) {
 			return;
 		}
 
@@ -61,21 +64,21 @@ class SpecialWordNet extends SpecialPage {
 		}
 	}
 
-	protected function getSynsets( $expression ) {
+	protected function getSynsets( string $expression ): array {
 		$parameters = [
 			'limit' => '1000',
 		];
 
-		$factory = SMW\DataValueFactory::getInstance();
+		$factory = DataValueFactory::getInstance();
 		$prop1 = $factory->newPropertyValueByLabel( 'Wn/expression' );
 		$prop2 = $factory->newPropertyValueByLabel( 'Wn/description' );
 
 		$printouts = [
-			new SMW\Query\PrintRequest(
-				SMW\Query\PrintRequest::PRINT_PROP, $prop1->getWikiValue(), $prop1
+			new PrintRequest(
+				PrintRequest::PRINT_PROP, $prop1->getWikiValue(), $prop1
 			),
-			new SMW\Query\PrintRequest(
-				SMW\Query\PrintRequest::PRINT_PROP, $prop2->getWikiValue(), $prop2
+			new PrintRequest(
+				PrintRequest::PRINT_PROP, $prop2->getWikiValue(), $prop2
 			),
 		];
 

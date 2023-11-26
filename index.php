@@ -4,7 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 ini_set( 'memory_limit', '1G' );
 
 class WordNetParser {
-	public function getData( $language = 'fi' ) {
+	public function getData( string $language = 'fi' ): array {
 		$wn = [];
 		$ip = __DIR__ . '/cache';
 
@@ -98,7 +98,7 @@ class WordNetParser {
 		foreach ( array_keys( $wn ) as $id ) {
 			usort(
 				$wn[$id]['semrels'],
-				function ( $a, $b ) {
+				static function ( $a, $b ) {
 					$type = strcmp( $a['type'], $b['type'] );
 					return $type === 0 ? strcmp( $a['synset'], $b['synset'] ) : $type;
 				}
@@ -108,12 +108,10 @@ class WordNetParser {
 		return $wn;
 	}
 
-	protected static function getSynsetName( $id ) {
+	protected static function getSynsetName( string $id ): string {
 		$id = str_replace( 'en-3.0', 'en', $id );
 		$lang = substr( $id, 0, 2 );
-		$id = 'WordNet:' . substr( $id, 3 ) . '/' . $lang;
-
-		return $id;
+		return 'WordNet:' . substr( $id, 3 ) . '/' . $lang;
 	}
 
 	/**
@@ -177,7 +175,7 @@ class WordNetParser {
 	 * },
 	 * @endcode
 	 */
-	public function convertToWiki( $id, $synset ) {
+	public function convertToWiki( string $id, array $synset ): array {
 		$pages = [];
 
 		[ , $language ] = explode( '/', $id, 3 );
@@ -207,7 +205,7 @@ class WordNetParser {
 		return $pages;
 	}
 
-	public static function formatTemplate( $name, $parameters ) {
+	public static function formatTemplate( string $name, array $parameters ): string {
 		$params = '';
 		foreach ( $parameters as $key => $value ) {
 			// If no params, the new line never gets added and we get {{daa}}
@@ -220,11 +218,11 @@ class WordNetParser {
 		return '{{' . $name . $params . '}}';
 	}
 
-	public static function mapFormat( $template, $data ) {
+	public static function mapFormat( string $template, array $data ): string {
 		return implode(
 			"\n",
 			array_map(
-				function ( $rel ) use ( $template ) {
+				static function ( $rel ) use ( $template ) {
 					return WordNetParser::formatTemplate( $template, $rel );
 				},
 				$data
