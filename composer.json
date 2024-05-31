@@ -7,7 +7,7 @@
 		"parsecsv/php-parsecsv": "1.3.2"
 	},
 	"require-dev": {
-		"mediawiki/mediawiki-codesniffer": "v42.0.0",
+		"mediawiki/mediawiki-codesniffer": "v43.0.0",
 		"mediawiki/minus-x": "1.1.3",
 		"php-parallel-lint/php-console-highlighter": "v1.0.0",
 		"php-parallel-lint/php-parallel-lint": "v1.4.0"
