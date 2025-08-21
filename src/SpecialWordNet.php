@@ -2,13 +2,13 @@
 
 namespace MediaWiki\Extensions\WordNet;
 
-use Html;
+use MediaWiki\Html\Html;
 use SMW\DataValueFactory;
 use SMW\Query\PrintRequest;
+use SMW\Query\QueryContext;
 use SMW\Services\ServicesFactory;
 use SMWQueryProcessor;
 use SpecialPage;
-use Xml;
 
 /**
  * @author Niklas Laxstörm
@@ -35,7 +35,7 @@ class SpecialWordNet extends SpecialPage {
 			'form',
 			[ 'action' => wfScript() ],
 			Html::hidden( 'title', $this->getPageTitle()->getPrefixedText() ) .
-			Html::input( 'query' ) . Xml::submitButton( 'Hae' )
+			Html::input( 'query' ) . Html::submitButton( 'Hae' )
 		);
 		$out->addHtml( $form );
 		if ( $par === '' ) {
@@ -85,7 +85,7 @@ class SpecialWordNet extends SpecialPage {
 		$query = SMWQueryProcessor::createQuery(
 			"[[Category:WordNet]][[Wn/expression::$expression]]",
 			SMWQueryProcessor::getProcessedParams( $parameters, $printouts ),
-			SMWQueryProcessor::SPECIAL_PAGE,
+			QueryContext::SPECIAL_PAGE,
 			null,
 			$printouts
 		);
