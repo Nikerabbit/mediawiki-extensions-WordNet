@@ -49,7 +49,7 @@ class SpecialWordNet extends SpecialPage {
 			$results += $this->getSynsets( $keyword );
 		}
 
-		if ( !$results ) {
+		if ( $results === [] ) {
 			$sp = SpecialPage::getTitleFor( 'Search' );
 			$this->getOutput()->redirect( $sp->getLocalUrl( [ 'search' => $par, 'ns1202' => 1 ] ) );
 			return;

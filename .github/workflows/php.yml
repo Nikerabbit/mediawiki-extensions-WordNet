@@ -2,9 +2,10 @@ name: PHP Composer
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ master ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ master ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -13,6 +14,11 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php_version:
+          - 8.4
+          - 8.5
 
     steps:
     - uses: actions/checkout@v7
@@ -21,19 +27,42 @@ jobs:
       id: setup-php
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.3
+        php-version: ${{ matrix.php_version }}
 
-    - name: Cache Composer packages
+    - name: Cache vendor
       id: composer-cache
       uses: actions/cache@v5
       with:
         path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
+        key: ${{ runner.os }}-build-php${{ matrix.php_version }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-build-php${{ matrix.php_version }}-
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
       run: composer run-script test
+
+  rector:
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.4
+
+    - name: Cache vendor
+      id: composer-cache
+      uses: actions/cache@v5
+      with:
+        path: vendor
+        key: ${{ runner.os }}-rector-php8.4-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-rector-php8.4-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Run rector
+      run: composer run-script rector -- --dry-run

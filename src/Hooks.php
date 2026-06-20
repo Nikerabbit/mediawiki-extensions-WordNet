@@ -14,7 +14,7 @@ class Hooks implements ParserFirstCallInitHook {
 	public function onParserFirstCallInit( $parser ): void {
 		$parser->setHook(
 			'includesubpages',
-			static function ( $data, $params, $parser ) {
+			static function ( $data, $params, $parser ): array {
 				$title = $parser->getTitle();
 
 				$out = '';
