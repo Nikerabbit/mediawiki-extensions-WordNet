@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e4ed9581d51b445dbf3b24b734a746b",
+    "content-hash": "4fb57b75afc781254576d35d79cf52fe",
     "packages": [
         {
             "name": "composer/installers",
@@ -469,23 +469,23 @@
         },
         {
             "name": "mediawiki/mediawiki-codesniffer",
-            "version": "v51.0.1",
+            "version": "v52.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wikimedia/mediawiki-tools-codesniffer.git",
-                "reference": "ff737a50517ae3b02160288e601a87cd1d1691e1"
+                "reference": "bf16d45cb62ecd614e3d565e3b883a268aeba988"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wikimedia/mediawiki-tools-codesniffer/zipball/ff737a50517ae3b02160288e601a87cd1d1691e1",
-                "reference": "ff737a50517ae3b02160288e601a87cd1d1691e1",
+                "url": "https://api.github.com/repos/wikimedia/mediawiki-tools-codesniffer/zipball/bf16d45cb62ecd614e3d565e3b883a268aeba988",
+                "reference": "bf16d45cb62ecd614e3d565e3b883a268aeba988",
                 "shasum": ""
             },
             "require": {
                 "composer/semver": "^3.4.2",
-                "composer/spdx-licenses": "~1.5.2 || ~1.6.0",
+                "composer/spdx-licenses": "~1.6.0",
                 "ext-mbstring": "*",
-                "php": ">=8.2.0",
+                "php": ">=8.3.0",
                 "phpcsstandards/phpcsextra": "1.5.0",
                 "squizlabs/php_codesniffer": "3.13.6"
             },
@@ -514,9 +514,9 @@
                 "mediawiki"
             ],
             "support": {
-                "source": "https://github.com/wikimedia/mediawiki-tools-codesniffer/tree/v51.0.1"
+                "source": "https://github.com/wikimedia/mediawiki-tools-codesniffer/tree/v52.0.0"
             },
-            "time": "2026-08-07T22:14:15+00:00"
+            "time": "2026-08-06T12:11:22+00:00"
         },
         {
             "name": "mediawiki/minus-x",
