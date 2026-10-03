@@ -4,6 +4,8 @@ declare( strict_types=1 );
 namespace MediaWiki\Extensions\WordNet;
 
 use MediaWiki\Hook\ParserFirstCallInitHook;
+use MediaWiki\Title\Title;
+use Override;
 
 /**
  * @author Niklas Laxström
@@ -11,11 +13,12 @@ use MediaWiki\Hook\ParserFirstCallInitHook;
  */
 class Hooks implements ParserFirstCallInitHook {
 	/** @inheritDoc */
+	#[Override]
 	public function onParserFirstCallInit( $parser ): void {
 		$parser->setHook(
 			'includesubpages',
 			static function ( $data, $params, $parser ): array {
-				$title = $parser->getTitle();
+				$title = Title::castFromPageReference( $parser->getPage() );
 
 				$out = '';
 				foreach ( $title->getSubpages() as $subpage ) {

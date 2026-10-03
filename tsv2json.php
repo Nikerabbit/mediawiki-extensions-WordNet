@@ -1,9 +1,11 @@
 <?php
 
+use ParseCsv\Csv;
+
 require __DIR__ . '/vendor/autoload.php';
 ini_set( 'memory_limit', '1G' );
 
-$csv = new parseCSV();
+$csv = new Csv();
 $csv->delimiter = "\t";
 $csv->heading = false;
 $csv->enclosure = '';
