@@ -22,5 +22,14 @@
 	"SpecialPages": {
 		"WordNet": "MediaWiki\\Extensions\\WordNet\\SpecialWordNet"
 	},
-	"manifest_version": 2
+	"manifest_version": 2,
+	"requires": {
+		"MediaWiki": ">= 1.45.0",
+		"platform": {
+			"php": ">= 8.3.0"
+		},
+		"extensions": {
+			"SemanticMediaWiki": "*"
+		}
+	}
 }
