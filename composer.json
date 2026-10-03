@@ -3,15 +3,16 @@
 	"type": "mediawiki-extension",
 	"require": {
 		"php": ">=8.4",
-		"composer/installers": ">=1.0.1",
-		"parsecsv/php-parsecsv": "1.3.2"
+		"composer/installers": "^1.0.1 || ^2.0",
+		"parsecsv/php-parsecsv": "^1.3.2"
 	},
 	"require-dev": {
 		"mediawiki/mediawiki-codesniffer": "v52.0.1",
 		"mediawiki/minus-x": "2.0.1",
 		"php-parallel-lint/php-console-highlighter": "v1.0.0",
 		"php-parallel-lint/php-parallel-lint": "v1.4.0",
-		"rector/rector": "2.6.7"
+		"rector/rector": "2.6.7",
+		"mediawiki/mediawiki-phan-config": "0.20.0"
 	},
 	"scripts": {
 		"fix": [
@@ -23,12 +24,18 @@
 			"parallel-lint . --exclude vendor --exclude node_modules",
 			"phpcs -p -s"
 		],
-		"rector": "rector"
+		"rector": "rector",
+		"phan": "phan -d . --long-progress-bar"
 	},
 	"config": {
 		"allow-plugins": {
 			"composer/installers": true,
 			"dealerdirect/phpcodesniffer-composer-installer": true
+		},
+		"platform": {
+			"php": "8.4.0"
 		}
-	}
+	},
+	"description": "WordNet import and display tools",
+	"license": "GPL-2.0-or-later"
 }

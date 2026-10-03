@@ -3,12 +3,13 @@
 namespace MediaWiki\Extensions\WordNet;
 
 use MediaWiki\Html\Html;
+use MediaWiki\SpecialPage\SpecialPage;
+use Override;
 use SMW\DataValueFactory;
 use SMW\Query\PrintRequest;
 use SMW\Query\QueryContext;
 use SMW\Services\ServicesFactory;
 use SMWQueryProcessor;
-use SpecialPage;
 
 /**
  * @author Niklas Laxstörm
@@ -20,11 +21,13 @@ class SpecialWordNet extends SpecialPage {
 	}
 
 	/** @inheritDoc */
+	#[Override]
 	protected function getGroupName(): string {
 		return 'pages';
 	}
 
 	/** @inheritDoc */
+	#[Override]
 	public function execute( $par ): void {
 		$this->setHeaders();
 		$this->outputHeader();
@@ -86,7 +89,7 @@ class SpecialWordNet extends SpecialPage {
 			"[[Category:WordNet]][[Wn/expression::$expression]]",
 			SMWQueryProcessor::getProcessedParams( $parameters, $printouts ),
 			QueryContext::SPECIAL_PAGE,
-			null,
+			'',
 			$printouts
 		);
 
