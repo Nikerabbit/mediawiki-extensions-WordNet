@@ -19,6 +19,9 @@ class Hooks implements ParserFirstCallInitHook {
 			'includesubpages',
 			static function ( $data, $params, $parser ): array {
 				$title = Title::castFromPageReference( $parser->getPage() );
+				if ( $title === null ) {
+					return [ '', 'noparse' => false ];
+				}
 
 				$out = '';
 				foreach ( $title->getSubpages() as $subpage ) {
