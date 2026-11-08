@@ -27,6 +27,7 @@ class Hooks implements ParserFirstCallInitHook {
 				foreach ( $title->getSubpages() as $subpage ) {
 					$out .= '{{:' . $subpage->getPrefixedText() . '}}' . "\n";
 				}
+
 				$out = $parser->recursiveTagParse( $out );
 				return [ $out, 'noparse' => false ];
 			}
