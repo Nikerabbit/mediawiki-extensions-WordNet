@@ -98,7 +98,7 @@ class WordNetParser {
 		foreach ( array_keys( $wn ) as $id ) {
 			usort(
 				$wn[$id]['semrels'],
-				static function ( $a, $b ) {
+				static function ( array $a, array $b ): int {
 					$type = strcmp( $a['type'], $b['type'] );
 					return $type === 0 ? strcmp( $a['synset'], $b['synset'] ) : $type;
 				}
@@ -212,6 +212,7 @@ class WordNetParser {
 			if ( $params === '' ) {
 				$params = "\n";
 			}
+
 			$params .= "|$key=$value\n";
 		}
 
@@ -222,9 +223,7 @@ class WordNetParser {
 		return implode(
 			"\n",
 			array_map(
-				static function ( $rel ) use ( $template ) {
-					return WordNetParser::formatTemplate( $template, $rel );
-				},
+				static fn ( $rel ): string => self::formatTemplate( $template, $rel ),
 				$data
 			)
 		);
